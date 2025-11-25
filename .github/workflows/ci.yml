@@ -25,13 +25,13 @@ jobs:
         with:
           enable-cache: true
           # Se o erro do uv.lock persistir, mude para "**/uv.lock"
-          cache-dependency-glob: "uv.lock" 
+          cache-dependency-glob: "**/uv.lock" 
 
       - name: Configurar Python 3.13
         run: uv python install 3.13
 
       - name: Instalar dependências
-        run: uv sync --all-extras --dev
+        run: uv sync --dev
 
       - name: Verificar Formatação (Ruff)
         run: uv run ruff format --check .

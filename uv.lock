@@ -58,6 +58,10 @@ dependencies = [
     { name = "esper" },
     { name = "pybag" },
     { name = "pygame-ce" },
+]
+
+[package.optional-dependencies]
+windows = [
     { name = "pywin32", marker = "sys_platform == 'win32'" },
 ]
 
@@ -72,8 +76,9 @@ requires-dist = [
     { name = "esper", specifier = ">=3.4" },
     { name = "pybag", specifier = ">=2.2.16" },
     { name = "pygame-ce", specifier = ">=2.5.6" },
-    { name = "pywin32", marker = "sys_platform == 'win32'", specifier = ">=306" },
+    { name = "pywin32", marker = "sys_platform == 'win32' and extra == 'windows'", specifier = ">=306" },
 ]
+provides-extras = ["windows"]
 
 [package.metadata.requires-dev]
 dev = [
