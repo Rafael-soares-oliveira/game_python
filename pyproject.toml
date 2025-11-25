@@ -27,3 +27,8 @@ select = ["E", "F", "I", "N", "W"]
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[tool.uv]
+required-environments = [
+  "sys_platform == 'win32' and platform_machine == 'AMD64'"
+]
