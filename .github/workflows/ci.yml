@@ -1,97 +1,80 @@
-# Este workflow define um CI/CD que roda em pushes e pull requests para main, faz
-# checagens de qualidade com uv e Ruff, e, se tudo passar, gera e publica um site
-# estático no GitHub Pages usando actions/upload-pages-artifact e actions/deploys-pages
-
 name: CI/CD Pipeline
 
 on:
-    push:
-        branches: [ "main" ]
-    pull_request:
-        branches: [ "main" ]
-    workflow_dispatch: # Permite rodar manualmente se necessário
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
 
-# Permissões necessárias para o GitHub Pages
 permissions:
-    contents: read
-    pages: write
-    id-token: write
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-    # JOB 1: Garantia ede Qualidade
-    quality-check:
-        name: Quality Gate
-        runs-on: ubuntu-latest
-        steps:
-            # Traz o código
-            - name: Checkout do código
-              uses: actions/checkout@v4
-            
-            # Instalar o gerenciador e habilitar cache
-            # Isso acelera execuções subsequentes e integra com o lockfile do projeto
-            - name: Instalar uv
-              uses: astral-sh/setup-uv@v3
-              with:
-                enable-cache: true
-                cache-dependency-glob: "uv.lock"
-            
-            # Instala a versão do Python
-            - name: Configurar Python 3.13
-              run: uv python install 3.13
-            
-            # Instalar pacotes e dependências
-            - name: Instalar dependências
-              run: uv sync --all-extras --dev
-            
-            # Verificar formatação com Ruff
-            - name: Verificar Formatação (Ruff)
-              run: uv run ruff format --check .
+  quality-check:
+    name: 🛡️ Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
-            # Rodar suíte de testes
-            # TODO: descomentar após criação dos testes
-            # - name: Rodar Testes
-            #   run: uv run pytest
+      - name: Instalar uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+          # Se o erro do uv.lock persistir, mude para "**/uv.lock"
+          cache-dependency-glob: "uv.lock" 
 
-    # JOB 2: Build e Deploy Web
-    deploy-web:
-        name: Build & Deploy Web
-        needs: quality-check # Só roda se o job de qualidade passar
-        # Garante que deploy apenas a partir da branch main
-        if: github.ref == 'ref/heads/main'
-        runs-on: ubuntu-latest
-        environment:
-            name: github-pages
-            url: ${{ steps.deployment.outputs.page_url }} # Obtida da saída do passo de deploy
-        
-        steps:
-            - name: Checkout do Código
-              uses: actions/checkout@v4
-            
-            - name: Instalar uv
-              uses: astral-sh/setup-uv@v3
+      - name: Configurar Python 3.13
+        run: uv python install 3.13
 
-            - name: Configurar Python 3.13
-              run: uv python install 3.13
-            
-            - name: Instalar dependências
-              run: uv sync
-            
-            # O pybag compila a pasta src e gera a pasta build/web
-            # Mover o conteúdo para uma pasta limpa para upload -> public
-            - name: Build para Web (Pybag)
-              run: |
-                uv run pybag --build --archive src
-                mkdir public
-                cp -r src/build/web/* public/
-            
-            # Empacota e envia a pasta public como artefato nomeado para ser usado pelo deploy
-            - name: Upload do artefato para o GitHub Pages
-              uses: actions/upload-pages-artifact@v3
-              with:
-                path: 'public'
-            
-            # Publica o artefato no Pages e retorna page_url como saída
-            - name: Deploy no GitHub Pages
-              id: deployment
-              uses: actions/deploy-pages@v4
-            
+      - name: Instalar dependências
+        run: uv sync --all-extras --dev
+
+      - name: Verificar Formatação (Ruff)
+        run: uv run ruff format --check .
+      
+      # Recomendo manter este passo para garantir qualidade do código
+      - name: Verificar Linting (Ruff)
+        run: uv run ruff check .
+
+  deploy-web:
+    name: 🚀 Build & Deploy Web
+    needs: quality-check
+    # CORRIGIDO: ref -> refs (com 's')
+    if: github.ref == 'refs/heads/main' 
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Instalar uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Configurar Python 3.13
+        run: uv python install 3.13
+
+      - name: Instalar dependências
+        run: uv sync
+
+      - name: Build para Web (Pygbag)
+        # CORRIGIDO: pybag -> pygbag
+        run: |
+          uv run pygbag --build --archive src
+          mkdir public
+          cp -r src/build/web/* public/
+
+      - name: Upload do artefato para o GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'
+
+      - name: Deploy no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
