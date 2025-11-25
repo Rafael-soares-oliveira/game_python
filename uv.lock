@@ -1,27 +1,6 @@
 version = 1
 revision = 3
-requires-python = ">=3.13"
-required-markers = [
-    "platform_machine == 'AMD64' and sys_platform == 'win32'",
-]
-
-[[package]]
-name = "capstone"
-version = "5.0.6"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/d5/b0/1f126035a4cbc6f488b97e4bd57a46a28b6ba29ca8b938cbda840601a18a/capstone-5.0.6.tar.gz", hash = "sha256:b11a87d67751b006b9b44428d59c99512e6d6c89cf7dff8cdd92d9065628b5a0", size = 2945704, upload-time = "2025-03-23T16:03:40.795Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/cd/9a/d9c11e090fa03dfc61a03a57ba44c6a07370f4ac5814f2a5804bfd40ee8b/capstone-5.0.6-py3-none-macosx_10_9_universal2.whl", hash = "sha256:0bca16e1c3ca1b928df6103b3889dcb6df7b05392d75a0b7af3508798148b899", size = 2177082, upload-time = "2025-03-23T16:03:27.815Z" },
-    { url = "https://files.pythonhosted.org/packages/66/28/72a0be2325e6ee459f27cdcd835d3eee6fed5136321b5f7be41b41dc8656/capstone-5.0.6-py3-none-macosx_10_9_x86_64.whl", hash = "sha256:539191906a34ad1c573ec12b787b2caf154ea41175db6ded9def00aea8151099", size = 1180215, upload-time = "2025-03-23T16:03:29.409Z" },
-    { url = "https://files.pythonhosted.org/packages/54/93/7b8fb02661d47a2822d5b640df804ef310417144af02e6db3446f174c4b5/capstone-5.0.6-py3-none-macosx_11_0_arm64.whl", hash = "sha256:e0b87b283905e4fc43635ca04cf26f4a5d9e8375852e5464d38938f3a28c207a", size = 1192757, upload-time = "2025-03-23T16:03:30.966Z" },
-    { url = "https://files.pythonhosted.org/packages/ba/a2/d1bdb7260ade8165182979ea16098ef3a37c01316140511a611e549dbfe3/capstone-5.0.6-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:fa7892f0c89455078c18f07d2d309fb07baa53061b8f9a63db1ea00d41a46726", size = 1458413, upload-time = "2025-03-23T16:03:32.04Z" },
-    { url = "https://files.pythonhosted.org/packages/78/7f/ec0687bbe8f6b128f1d41d90ec7cedfd1aaaa4ecb1ae8d334acc7dad8013/capstone-5.0.6-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0358855773100bb91ae6681fabce7299df83156945ba943f6211061a592c54a6", size = 1481605, upload-time = "2025-03-23T16:03:33.526Z" },
-    { url = "https://files.pythonhosted.org/packages/fc/1d/77bb0f79e1dacdfdcc0679c747d9ca24cc621095e09bdb665e7dd0c580ae/capstone-5.0.6-py3-none-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:667d6466dab1522fa5e9659be5cf1aca83e4fc3da7d15d0e5e6047f71fb46c4a", size = 1480730, upload-time = "2025-03-23T16:03:34.601Z" },
-    { url = "https://files.pythonhosted.org/packages/72/63/07437972f68d0b2ba13e1705a6994404c9c961afbadc342c5b6fcf1de652/capstone-5.0.6-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:45c0e25500dd8d283d3b70f2e10cebfec93ab8bdaf6af9a763a0a999b4705891", size = 1457992, upload-time = "2025-03-23T16:03:35.75Z" },
-    { url = "https://files.pythonhosted.org/packages/0c/53/f371e86493a2ae659b5a493c3cc23122974e83a1f53d3a5638d7bb7ac371/capstone-5.0.6-py3-none-musllinux_1_2_i686.whl", hash = "sha256:22f1f2f118f8fa1d1c5c90bca90e75864d55e16349b3c03aaea0e86b4a45d2a9", size = 1484184, upload-time = "2025-03-23T16:03:37.05Z" },
-    { url = "https://files.pythonhosted.org/packages/df/c3/8b842ae32949c3570581164619c2f69001c6d8da566dc2e490372032b0d6/capstone-5.0.6-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:bc23cf634f51d0e53bdd04ea53ccfff7fc9060dfe58dff1e1b260ce40e5538ff", size = 1485357, upload-time = "2025-03-23T16:03:38.133Z" },
-    { url = "https://files.pythonhosted.org/packages/da/72/ff7894c2fb5716d9a3ce9c27ba34b29d991a11d8442d2ef0fcdc5564ba7e/capstone-5.0.6-py3-none-win_amd64.whl", hash = "sha256:761c3deae00b22ac697081cdae1383bb90659dd0d79387a09cf5bdbb22b17064", size = 1271345, upload-time = "2025-03-23T16:03:39.649Z" },
-]
+requires-python = ">=3.12"
 
 [[package]]
 name = "colorama"
@@ -30,15 +9,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d8/53/6f443c9a4a8358a93a6792e2acffb9d9d5cb0a5cfd8802644b7b1c9a02e4/colorama-0.4.6.tar.gz", hash = "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44", size = 27697, upload-time = "2022-10-25T02:36:22.414Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d1/d6/3965ed04c63042e047cb6a3e6ed1a63a35087b6a609aa3a15ed8ac56c221/colorama-0.4.6-py2.py3-none-any.whl", hash = "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6", size = 25335, upload-time = "2022-10-25T02:36:20.889Z" },
-]
-
-[[package]]
-name = "comtypes"
-version = "1.4.13"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/c0/5c/848f18615227fe20f5ba61b271bbeb670f2ea894f76fb3a533e53d4b52d4/comtypes-1.4.13.zip", hash = "sha256:fc573997ae32b374891cfa8d79ebb8289809ed3a4a3f789d5348371099c7788a", size = 281325, upload-time = "2025-10-12T14:25:09.061Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/66/95/f30c80615fda0d3c0ee6493ac9db61183313b43499b62dec136773b0e870/comtypes-1.4.13-py3-none-any.whl", hash = "sha256:21546210748ba52e839e52112124b16ffab7d7fb68096493165fbc249e9023ad", size = 254433, upload-time = "2025-10-12T14:25:07.539Z" },
 ]
 
 [[package]]
@@ -56,13 +26,8 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "esper" },
-    { name = "pybag" },
     { name = "pygame-ce" },
-]
-
-[package.optional-dependencies]
-windows = [
-    { name = "pywin32", marker = "sys_platform == 'win32'" },
+    { name = "pygbag" },
 ]
 
 [package.dev-dependencies]
@@ -74,11 +39,9 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "esper", specifier = ">=3.4" },
-    { name = "pybag", specifier = ">=2.2.16" },
     { name = "pygame-ce", specifier = ">=2.5.6" },
-    { name = "pywin32", marker = "sys_platform == 'win32' and extra == 'windows'", specifier = ">=311" },
+    { name = "pygbag", specifier = ">=0.9.2" },
 ]
-provides-extras = ["windows"]
 
 [package.metadata.requires-dev]
 dev = [
@@ -114,26 +77,18 @@ wheels = [
 ]
 
 [[package]]
-name = "pybag"
-version = "2.2.16"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "capstone" },
-    { name = "comtypes" },
-    { name = "pywin32" },
-    { name = "win32more" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/e1/84/1053510186c0f9a37daad1287194c1b57167590fb065f33ed2d481db58e3/pybag-2.2.16.tar.gz", hash = "sha256:64066f4e5c6581fa9cf778d8e6cf5ce33d3f431961557365c465905ca79b2966", size = 152913, upload-time = "2025-06-26T02:24:59.073Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/5e/a2/52084698c0a3c7e7a94ddfff26f83df09a50781b8436f6f203f5de0a457c/pybag-2.2.16-py3-none-any.whl", hash = "sha256:cef631e87d0bb12163c8cb11ca756ddfa8924a6eacdbd746683ed58948a2bfdf", size = 158949, upload-time = "2025-06-26T02:24:58.091Z" },
-]
-
-[[package]]
 name = "pygame-ce"
 version = "2.5.6"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f1/a0/8199f0e96f43d94b79a74116a20b4937648bd26117e11d8994b1169a9120/pygame_ce-2.5.6.tar.gz", hash = "sha256:d3d019309d1e76fd19978b01753e8576bd76c66411ac7a4885785f95e68dc261", size = 5901071, upload-time = "2025-10-19T13:09:06.225Z" }
 wheels = [
+    { url = "https://files.pythonhosted.org/packages/5a/05/7295ecb43e20e76e6f177eb38b1346f22d57be5e6659d3d952423b9f7199/pygame_ce-2.5.6-cp312-cp312-macosx_10_13_x86_64.whl", hash = "sha256:198ba4d3925ad9acbf4b96ac1385f0b54f1e2141223e42da782d8345a5d6adc0", size = 12483809, upload-time = "2025-10-19T13:07:51.308Z" },
+    { url = "https://files.pythonhosted.org/packages/aa/59/e3146af051400d81046cd33e01e5c150086607fc4112f5a63531331e2e34/pygame_ce-2.5.6-cp312-cp312-macosx_11_0_arm64.whl", hash = "sha256:5bb66ac4025d6abb60929bf742d287c5fdc58918847a599d12ba0747fee7d882", size = 11728112, upload-time = "2025-10-19T13:07:53.802Z" },
+    { url = "https://files.pythonhosted.org/packages/5b/d3/43702534989aca67704a1c333216891b248f102266eb8a7be001bb32f8dc/pygame_ce-2.5.6-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:133279f5724431fd0de74b29060b08e655d24d8b3c09481f226182ac0cb32927", size = 12399387, upload-time = "2025-10-19T13:07:56.286Z" },
+    { url = "https://files.pythonhosted.org/packages/f2/9f/3281831fdcecdb6887643217ee250f28afc80fab7afe87a15cf3f3f7a191/pygame_ce-2.5.6-cp312-cp312-manylinux2014_i686.manylinux_2_17_i686.whl", hash = "sha256:0475663693392f715dd541f36d52bc64e4395391a9de15bec263f395a90c605e", size = 12938275, upload-time = "2025-10-19T13:07:58.592Z" },
+    { url = "https://files.pythonhosted.org/packages/c1/83/0236e258d9f9b40fcef4f14eb5cf461df569a6022f9c052a73b3c28a8422/pygame_ce-2.5.6-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:6ed8163e389d5dfcf7817458792c4eaeb96a50393d63a9c4d3384eb2b8944123", size = 12554647, upload-time = "2025-10-19T13:08:00.794Z" },
+    { url = "https://files.pythonhosted.org/packages/17/d5/2a5ab30fe4ee56feda942ed730294efe493f80105b2a62907e4247226d27/pygame_ce-2.5.6-cp312-cp312-win32.whl", hash = "sha256:d65428f387c2e4301b3c4e92b01bec658655b9de5319ebac776e25ac5b373cda", size = 9845919, upload-time = "2025-10-19T13:08:03.225Z" },
+    { url = "https://files.pythonhosted.org/packages/09/a2/38b7223c59a96226d47fe3b3c2dc5167ffd54653fa22f0fc03fd821173b6/pygame_ce-2.5.6-cp312-cp312-win_amd64.whl", hash = "sha256:2759a2e83234cb276edb16ea6fa858736bbe64977ba35e0f83844c255ba846e7", size = 10424977, upload-time = "2025-10-19T13:08:05.214Z" },
     { url = "https://files.pythonhosted.org/packages/fd/c4/b2a2b259d05ea90840d62b2dd61b5005d891fd82fde7e05f59ecc3a9de8f/pygame_ce-2.5.6-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:a83710528f2a90a026fca9caee390779842d5486ca3d48d4d1213060e5d41083", size = 12478496, upload-time = "2025-10-19T13:08:07.499Z" },
     { url = "https://files.pythonhosted.org/packages/33/1d/8c14e5789fb0b4a7a8b6817b46690362f072da6c8307140de10f70fbf588/pygame_ce-2.5.6-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:971b86e48acdf37aaf9782560088c0949ca7ec3aea33827c74f4d4c4bc04c367", size = 11722973, upload-time = "2025-10-19T13:08:09.552Z" },
     { url = "https://files.pythonhosted.org/packages/2e/fd/255b8233c690a68d3b68d299868fd51b5f6f509ae67453b6c21c3e27330a/pygame_ce-2.5.6-cp313-cp313-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:92050fd16b62b20779b6ec2fb867bc8261e5499be967ed2aa7ff6a76b7735791", size = 12396847, upload-time = "2025-10-19T13:08:11.808Z" },
@@ -148,6 +103,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/3a/98/e5cd3053eac63d6a2622c654d4b09977375939beda34d203f064dac5dfd9/pygame_ce-2.5.6-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:266f976feb1a61bf19163416897189e6e7a8f78c362576a0afa214ffb7f1d18e", size = 12553880, upload-time = "2025-10-19T13:08:31.833Z" },
     { url = "https://files.pythonhosted.org/packages/58/a9/90b806a7bb24bdea638603ff6c3dc0debc8e29012ae389172943579761c7/pygame_ce-2.5.6-cp314-cp314-win32.whl", hash = "sha256:c73ce70c63ab45f778fdc9d10d27077f9cfc49d1fa4ea1ae0e5eca514b47b683", size = 9975637, upload-time = "2025-10-19T13:08:34.417Z" },
     { url = "https://files.pythonhosted.org/packages/87/1b/d9f180e142273dcef180ad3274213eba13ad76f335434979e584fbd57278/pygame_ce-2.5.6-cp314-cp314-win_amd64.whl", hash = "sha256:9579c4283fd644798632aac20d65282a2e7efcdf0f79b7c545fdeda372381e30", size = 10589621, upload-time = "2025-10-19T13:08:36.676Z" },
+]
+
+[[package]]
+name = "pygbag"
+version = "0.9.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/5a/27/d6d9cf9c0831481b94606652c0861667d9254aecc59c0f1db0f948a126fe/pygbag-0.9.2.tar.gz", hash = "sha256:0e31860742a8ba9c527135cbb6d64f6d7d8d7b23b71ee87a15f1de9474690c25", size = 152074, upload-time = "2024-08-18T22:45:38.498Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3a/19/6c4b2a515651849138cef43d878eba9a4f8e39113499a99e7c3d97890c5e/pygbag-0.9.2-py3-none-any.whl", hash = "sha256:3a60a80cc28ed21e3d5d98c08a5d8f857911e38e411b6e590ba640158e8656c1", size = 171937, upload-time = "2024-08-18T22:45:36.536Z" },
 ]
 
 [[package]]
@@ -176,19 +140,6 @@ wheels = [
 ]
 
 [[package]]
-name = "pywin32"
-version = "311"
-source = { registry = "https://pypi.org/simple" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/a5/be/3fd5de0979fcb3994bfee0d65ed8ca9506a8a1260651b86174f6a86f52b3/pywin32-311-cp313-cp313-win32.whl", hash = "sha256:f95ba5a847cba10dd8c4d8fefa9f2a6cf283b8b88ed6178fa8a6c1ab16054d0d", size = 8705700, upload-time = "2025-07-14T20:13:26.471Z" },
-    { url = "https://files.pythonhosted.org/packages/e3/28/e0a1909523c6890208295a29e05c2adb2126364e289826c0a8bc7297bd5c/pywin32-311-cp313-cp313-win_amd64.whl", hash = "sha256:718a38f7e5b058e76aee1c56ddd06908116d35147e133427e59a3983f703a20d", size = 9494700, upload-time = "2025-07-14T20:13:28.243Z" },
-    { url = "https://files.pythonhosted.org/packages/04/bf/90339ac0f55726dce7d794e6d79a18a91265bdf3aa70b6b9ca52f35e022a/pywin32-311-cp313-cp313-win_arm64.whl", hash = "sha256:7b4075d959648406202d92a2310cb990fea19b535c7f4a78d3f5e10b926eeb8a", size = 8709318, upload-time = "2025-07-14T20:13:30.348Z" },
-    { url = "https://files.pythonhosted.org/packages/c9/31/097f2e132c4f16d99a22bfb777e0fd88bd8e1c634304e102f313af69ace5/pywin32-311-cp314-cp314-win32.whl", hash = "sha256:b7a2c10b93f8986666d0c803ee19b5990885872a7de910fc460f9b0c2fbf92ee", size = 8840714, upload-time = "2025-07-14T20:13:32.449Z" },
-    { url = "https://files.pythonhosted.org/packages/90/4b/07c77d8ba0e01349358082713400435347df8426208171ce297da32c313d/pywin32-311-cp314-cp314-win_amd64.whl", hash = "sha256:3aca44c046bd2ed8c90de9cb8427f581c479e594e99b5c0bb19b29c10fd6cb87", size = 9656800, upload-time = "2025-07-14T20:13:34.312Z" },
-    { url = "https://files.pythonhosted.org/packages/c0/d2/21af5c535501a7233e734b8af901574572da66fcc254cb35d0609c9080dd/pywin32-311-cp314-cp314-win_arm64.whl", hash = "sha256:a508e2d9025764a8270f93111a970e1d0fbfc33f4153b388bb649b7eec4f9b42", size = 8932540, upload-time = "2025-07-14T20:13:36.379Z" },
-]
-
-[[package]]
 name = "ruff"
 version = "0.14.6"
 source = { registry = "https://pypi.org/simple" }
@@ -212,105 +163,4 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/67/0b/8e4e0639e4cc12547f41cb771b0b44ec8225b6b6a93393176d75fe6f7d40/ruff-0.14.6-py3-none-win32.whl", hash = "sha256:00169c0c8b85396516fdd9ce3446c7ca20c2a8f90a77aa945ba6b8f2bfe99e85", size = 13013361, upload-time = "2025-11-21T14:26:08.152Z" },
     { url = "https://files.pythonhosted.org/packages/fb/02/82240553b77fd1341f80ebb3eaae43ba011c7a91b4224a9f317d8e6591af/ruff-0.14.6-py3-none-win_amd64.whl", hash = "sha256:390e6480c5e3659f8a4c8d6a0373027820419ac14fa0d2713bd8e6c3e125b8b9", size = 14432087, upload-time = "2025-11-21T14:26:10.891Z" },
     { url = "https://files.pythonhosted.org/packages/a5/1f/93f9b0fad9470e4c829a5bb678da4012f0c710d09331b860ee555216f4ea/ruff-0.14.6-py3-none-win_arm64.whl", hash = "sha256:d43c81fbeae52cfa8728d8766bbf46ee4298c888072105815b392da70ca836b2", size = 13520930, upload-time = "2025-11-21T14:26:13.951Z" },
-]
-
-[[package]]
-name = "win32more"
-version = "0.7.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "win32more-appsdk" },
-    { name = "win32more-core" },
-    { name = "win32more-microsoft-graphics-win2d" },
-    { name = "win32more-microsoft-web-webview2" },
-    { name = "win32more-microsoft-windows-sdk-contracts" },
-    { name = "win32more-microsoft-windows-sdk-win32metadata" },
-    { name = "win32more-microsoft-windowsappsdk" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/37/da/e17576dd5a64f6b6003159188895d2c9d24a8b0e56b779b24d5a890d17de/win32more-0.7.0.tar.gz", hash = "sha256:2d24d6157fe12e8a870ae7d1eec62216c450a0b62ac639509d8ef28e7b9902a6", size = 4837, upload-time = "2025-11-01T04:22:58.607Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/92/3a/658eb3ba88f067662be280f8f1aec07a70c96bac77e9edc48b1be38e446b/win32more-0.7.0-py3-none-any.whl", hash = "sha256:ba586b8a5997d1410de5d934e34aefdce8d15ef8d766d6a6b1cda8762d46b05e", size = 3671, upload-time = "2025-11-01T04:22:57.164Z" },
-]
-
-[[package]]
-name = "win32more-appsdk"
-version = "0.7.3"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "win32more-core" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/c3/f0/5be8ea52f71036bc05db7c18b1e766c348dca8b6b197ac2f4e6364ae2eb0/win32more_appsdk-0.7.3.tar.gz", hash = "sha256:b98a627e44eebc9973bf76c29f80668d37dd121f8b82cc39a84d9df084e988ef", size = 10560, upload-time = "2025-11-18T13:34:51.928Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/f6/49/cff21fc3adcac1fe19f9f2e50278553fe13b9ac702be569c97f85292481d/win32more_appsdk-0.7.3-py2.py3-none-any.whl", hash = "sha256:707cdd2db3f07dfd7d22b5aa2adffd13dbd316a5eed779ca272feaa6ebc22f88", size = 11853, upload-time = "2025-11-18T13:34:50.897Z" },
-]
-
-[[package]]
-name = "win32more-core"
-version = "0.7.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/48/6f/2fab8c7926d73faf73ce56caaa57d27ef14ad94d3453f7b83e24adb89422/win32more_core-0.7.0.tar.gz", hash = "sha256:cef84b583e4c442b1f29afce288633fcccdecfe57798a89b96f2734d29416552", size = 21570, upload-time = "2025-11-01T04:23:06.389Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/81/bc/7c1c5609f835d3e719c944714638a7a70bbfef6b990c251c32c1cd82d67a/win32more_core-0.7.0-py2.py3-none-any.whl", hash = "sha256:a501666b44bd36ceebbcff7656e7ec75f92813d23761d0f49f14c79b3a406bd9", size = 25807, upload-time = "2025-11-01T04:23:05.252Z" },
-]
-
-[[package]]
-name = "win32more-microsoft-graphics-win2d"
-version = "0.7.1.3.2"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "win32more-core" },
-    { name = "win32more-microsoft-windowsappsdk" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/17/cf/9bc5a6cacb6ef49b7d66bb5671ea3a185e6d9c9b8723a9d348793add1f60/win32more_microsoft_graphics_win2d-0.7.1.3.2.tar.gz", hash = "sha256:3f18f7eb2e3afcfe394350464c6349b61a11379d50a3a0d51fbd5cdf3c4c7cfc", size = 1905904, upload-time = "2025-11-01T04:23:36.732Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/b5/6d/d58b223be7cff571527d91a3626089cb4da614dcba461811dcf18449f0f9/win32more_microsoft_graphics_win2d-0.7.1.3.2-py2.py3-none-any.whl", hash = "sha256:548f65fcebe72c19ae9c797dd9351c0d0bd20010856a4928f755f6d4ec01b16a", size = 1963610, upload-time = "2025-11-01T04:23:34.659Z" },
-]
-
-[[package]]
-name = "win32more-microsoft-web-webview2"
-version = "0.7.1.0.3595.46"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "win32more-core" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/be/0f/2128e8b6bcfa4ee74287adb8dd293a5e9ec8d41af842942d029ba5dde2f9/win32more_microsoft_web_webview2-0.7.1.0.3595.46.tar.gz", hash = "sha256:2f9158850cb94ca170171267012c04666770340e7becb31563f4b8b1e3a2e307", size = 837380, upload-time = "2025-11-07T11:22:30.895Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/fd/20/d21f91c06397793fd2b44e13e90361749ca5d10d35e81583003b6b555bb8/win32more_microsoft_web_webview2-0.7.1.0.3595.46-py2.py3-none-any.whl", hash = "sha256:0febd9c8f972d16c1994d84d1fcbb7d3fc5ddcc48e4b47ea3373866b7a32f4e4", size = 859550, upload-time = "2025-11-07T11:22:28.309Z" },
-]
-
-[[package]]
-name = "win32more-microsoft-windows-sdk-contracts"
-version = "0.7.10.0.26100.6901"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "win32more-core" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/84/14/fb3062febd31be92ad01dd9f1be26f6fe7d87c6e35192e935c937a615136/win32more_microsoft_windows_sdk_contracts-0.7.10.0.26100.6901.tar.gz", hash = "sha256:ef601c47859c6efc500425bce35b10e4fe3ee3040ebeb16bea0c809d8660cb45", size = 1623624, upload-time = "2025-11-01T04:25:26.743Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/56/d7/0bb36964811a23f262cdddb1e5b91fdbd2f494990d48e657f15108f04855/win32more_microsoft_windows_sdk_contracts-0.7.10.0.26100.6901-py2.py3-none-any.whl", hash = "sha256:392a62a6ec7b0025f1e5d6f55dbfb55191f0088db8f6a2fc769413ab36b2bbcf", size = 1792158, upload-time = "2025-11-01T04:25:24.425Z" },
-]
-
-[[package]]
-name = "win32more-microsoft-windows-sdk-win32metadata"
-version = "0.7.66.0.5"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "win32more-core" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/90/80/8c252b18f36b837a5936e53c705f015b85f61227c533b2a0bfc6380a30cd/win32more_microsoft_windows_sdk_win32metadata-0.7.66.0.5.tar.gz", hash = "sha256:d0963dfdadffb426c885265bfc45412b254558f370d542248b71f3990c25e1a1", size = 3868297, upload-time = "2025-11-01T04:26:09.282Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/59/22/3601d08fae805bded505e0f3d2e4cb132c5322b4cc3df3a5a2056f945db5/win32more_microsoft_windows_sdk_win32metadata-0.7.66.0.5-py2.py3-none-any.whl", hash = "sha256:1bb90a0b32b08257aeed0d6f01da40f3fbbe6ec7bd9bf32e112d6b39fbd944a3", size = 4013628, upload-time = "2025-11-01T04:26:06.832Z" },
-]
-
-[[package]]
-name = "win32more-microsoft-windowsappsdk"
-version = "0.7.1.8.251106002"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "win32more-core" },
-    { name = "win32more-microsoft-web-webview2" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/8f/70/794b15b708cf6462801c1d55894abb9121d4f07fc2f4b77ae8eb4274105b/win32more_microsoft_windowsappsdk-0.7.1.8.251106002.tar.gz", hash = "sha256:16077521a772de7482b1774d3d3e14ff3e4874b60e3152bd27300d001fd7fe2d", size = 1155538, upload-time = "2025-11-12T12:28:59.169Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ef/7c/9630708dd252e0c5c7c9975d52ba0deea996e9b0cf29784d521ac30f3a48/win32more_microsoft_windowsappsdk-0.7.1.8.251106002-py2.py3-none-any.whl", hash = "sha256:d37c42d0e6ac87f71a4a1209af8a6adadde19d4b6df44ab3375195f5f41c462c", size = 1212001, upload-time = "2025-11-12T12:28:57.441Z" },
 ]
