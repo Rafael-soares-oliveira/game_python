@@ -33,7 +33,7 @@ jobs:
               uses: astral-sh/setup-uv@v3
               with:
                 enable-cache: true
-                cache-dependency-glob: "uv-lock"
+                cache-dependency-glob: "uv.lock"
             
             # Instala a versão do Python
             - name: Configurar Python 3.13
