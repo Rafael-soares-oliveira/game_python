@@ -65,9 +65,9 @@ jobs:
 
       - name: Build para Web (Pygbag)
         run: |
-          uv run pygbag --build --archive --umask 0 .
+          uv run pygbag --build --archive .
           mkdir public
-          cp -r src/build/web/* public/
+          cp -r build/web/* public/
 
       - name: Upload do artefato para o GitHub Pages
         uses: actions/upload-pages-artifact@v3
