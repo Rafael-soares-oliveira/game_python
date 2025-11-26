@@ -1,7 +1,17 @@
 import esper
 import pygame
 
-from src.core.components import Animation, Sprite, Transform, Velocity
+from src.core.components import (
+    Animation,
+    EnemyTag,
+    Health,
+    Invincibility,
+    PlayerTag,
+    Projectile,
+    Sprite,
+    Transform,
+    Velocity,
+)
 
 
 class MovementProcessor(esper.Processor):
@@ -64,7 +74,6 @@ class RenderProcessor(esper.Processor):
             cam_x, cam_y = context["camera"]
 
         # Coleta todas as entidades renderizáveis
-        # Casting explicíto ajuda o editor, mas não é obrigatório em runtime
         entities: list[tuple[int, tuple[Transform, Sprite]]] = list(
             esper.get_components(Transform, Sprite)
         )
@@ -73,10 +82,100 @@ class RenderProcessor(esper.Processor):
         # Menor desenha primeiro (fundo), Maior desenha por último (frente)
         entities.sort(key=lambda item: getattr(item[1][1], "layer", 0))
 
-        for ent, (tranform, sprite) in entities:
-            img = getattr(sprite, "image", None)
-            if img is None:
+        for ent, (transform, sprite) in entities:
+            if sprite.image:
+                display.blit(
+                    sprite.image, (int(transform.x - cam_x), int(transform.y - cam_y))
+                )
+
+
+class CollisionProcessor(esper.Processor):
+    def process(self, dt: float):
+        # Parte 1: Invincibility
+        for ent, (inv, sprite) in esper.get_components(Invincibility, Sprite):
+            if inv.is_active:
+                inv.timer -= dt
+                if inv.timer <= 0:
+                    inv.is_active = False
+                    sprite.image.set_alpha(255)
+                else:
+                    if (inv.timer % (inv.blink_interval * 2)) > inv.blink_interval:
+                        sprite.image.set_alpha(50)
+                    else:
+                        sprite.image.set_alpha(255)
+
+        # Parte 2: Coleta Inimigos
+        enemies_data = []
+        for ent, (trans, sprite, _) in esper.get_components(
+            Transform, Sprite, EnemyTag
+        ):
+            rect = pygame.Rect(trans.x, trans.y, sprite.width, sprite.height)
+            enemies_data.append((rect, ent))
+
+        # Parte 3: Player vs Enemy
+        for ent, (trans, sprite, inv, health) in esper.get_components(
+            Transform, Sprite, Invincibility, Health
+        ):
+            if not esper.has_component(ent, PlayerTag):
+                continue
+            if inv.is_active:
                 continue
 
-            # Conversão para int é necessário pois pixels não são fracionários
-            display.blit(img, (int(tranform.x - cam_x), int(tranform.y - cam_y)))
+            player_rect = pygame.Rect(trans.x, trans.y, sprite.width, sprite.height)
+            for enemy_rect, enemy_ent in enemies_data:
+                if player_rect.colliderect(enemy_rect):
+                    health.current -= 25
+                    inv.is_active = True
+                    inv.timer = inv.duration
+                    print(f"Player Atingido! HP: {health.current}")
+                    break
+
+        # -------------------------------------------------
+        # PARTE 4: Laser vs Inimigo
+        # - Evita deletar durante iteração: acumula e deleta depois
+        # -------------------------------------------------
+        lasers_to_delete: set[int] = set()
+        enemies_to_delete: set[int] = set()
+
+        for laser_ent, (l_trans, l_sprite, l_proj) in esper.get_components(
+            Transform, Sprite, Projectile
+        ):
+            # Se o laser já está marcado para remoção, pula
+            if laser_ent in lasers_to_delete:
+                continue
+
+            laser_rect = pygame.Rect(
+                l_trans.x, l_trans.y, l_sprite.width, l_sprite.height
+            )
+
+            for enemy_rect, enemy_ent in enemies_data:
+                if laser_rect.colliderect(enemy_rect):
+                    if not esper.entity_exists(enemy_ent) or not esper.entity_exists(
+                        laser_ent
+                    ):
+                        continue
+
+                    # Marca o laser para remoção
+                    lasers_to_delete.add(laser_ent)
+
+                    # Aplica dano ao inimigo (se tiver componente Health)
+                    enemy_health = esper.try_component(enemy_ent, Health)
+                    if enemy_health:
+                        enemy_health.current -= l_proj.damage
+                        if enemy_health.current <= 0:
+                            enemies_to_delete.add(enemy_ent)
+                    else:
+                        # Sem componente Health = morte instantânea
+                        enemies_to_delete.add(enemy_ent)
+
+                    # Não checar mais inimigos para esse laser
+                    break
+
+        # Agora deletar todas as entidades marcadas (após iteração)
+        for ent in lasers_to_delete:
+            if esper.entity_exists(ent):
+                esper.delete_entity(ent, immediate=True)
+
+        for ent in enemies_to_delete:
+            if esper.entity_exists(ent):
+                esper.delete_entity(ent, immediate=True)
