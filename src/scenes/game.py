@@ -7,6 +7,7 @@ from src.core.components import (
     EnemyTag,
     Gun,
     Health,
+    Invincibility,
     PlayerTag,
     Projectile,
     Sprite,
@@ -22,8 +23,20 @@ from src.core.systems import (
 )
 
 # Importamos as fábricas
-from src.entities import create_bg, create_enemy, create_laser, create_player
-from src.settings import COLORS, PLAYER_SPEED, WINDOW_HEIGHT, WINDOW_WIDTH
+from src.entities import (
+    create_bg,
+    create_enemy,
+    create_laser,
+    create_player,
+    spawn_enemy_pattern,
+)
+from src.settings import (
+    COLORS,
+    ENEMY_SHOOT_COOLDOWN,
+    PLAYER_SPEED,
+    WINDOW_HEIGHT,
+    WINDOW_WIDTH,
+)
 
 
 class GameScene(Scene):
@@ -43,6 +56,11 @@ class GameScene(Scene):
         self.camera = pygame.Vector2(0, 0)
         self._init_systems()
         self._init_level()
+
+        # Controle de Ataque do Inimigo
+        self.enemy_timer = 0.0
+        self.enemy_cooldown = ENEMY_SHOOT_COOLDOWN
+        self.current_pattern = 0
 
     def _init_systems(self):
         """Registra os processadores."""
@@ -82,8 +100,23 @@ class GameScene(Scene):
     def update(self, dt: float):
         esper.switch_world(self.world_name)
 
+        # Lógica de Tiro Inimigo
+        self.enemy_timer += dt
+        if self.enemy_timer >= self.enemy_cooldown:
+            self.enemy_timer = 0
+
+            # Busca posição do inimigo
+            for ent, (trans, _) in esper.get_components(Transform, EnemyTag):
+                # Ajusta a posição para sair do centro/baixo do inimigo
+                cx = trans.x + 20
+                cy = trans.y + 50
+
+                spawn_enemy_pattern(self.world_name, cx, cy, self.current_pattern)
+                self.current_pattern = (self.current_pattern + 1) % 4
+
         # 1. Inputs de Gameplay (Tiro e Movimento)
-        self._handle_input(dt)
+        self._handle_movement_input(dt)
+        self._handle_auto_fire(dt)
 
         # 2. Limpeza
         self._cleanup_projectiles()
@@ -98,7 +131,7 @@ class GameScene(Scene):
         self._check_game_over()
         self._check_victory()
 
-    def _handle_input(self, dt):
+    def _handle_movement_input(self, dt):
         keys = pygame.key.get_pressed()
 
         # Movimento
@@ -108,25 +141,44 @@ class GameScene(Scene):
         for ent, (vel, _) in esper.get_components(Velocity, PlayerTag):
             vel.x, vel.y = dx, dy
 
-        # Tiro
-        if keys[pygame.K_SPACE]:
-            for ent, (gun, trans, sprite, _) in esper.get_components(
-                Gun, Transform, Sprite, PlayerTag
-            ):
-                if gun.timer > 0:
-                    gun.timer -= dt
-                else:
-                    create_laser(self.world_name, trans, sprite)
-                    gun.timer = gun.cooldown
-        else:
-            # Resfria a arma mesmo sem atirar
-            for ent, (gun, _) in esper.get_components(Gun, PlayerTag):
-                if gun.timer > 0:
-                    gun.timer -= dt
+    def _handle_auto_fire(self, dt: float):
+        """Gerencia o tiro automático com delay inicial
+
+        Args:
+            dt (float): date time
+        """
+        for ent, (gun, trans, sprite, inv, _) in esper.get_components(
+            Gun, Transform, Sprite, Invincibility, PlayerTag
+        ):  # type: ignore
+            # REGRA 1: Se estiver invencível (tomou dano), não atira
+            if inv.is_active:
+                continue
+
+            # REGRA 2: Delay Inicial (os 2 segundos antes de começar)
+            if gun.start_delay > 0:
+                gun.start_delay -= dt
+                continue  # Ainda não pode atirar
+
+            # REGRA 3: Cooldown padrão (Tiro automático)
+            if gun.timer > 0:
+                gun.timer -= dt
+            else:
+                create_laser(self.world_name, trans, sprite)
+                gun.timer = gun.cooldown
 
     def _cleanup_projectiles(self):
+        # Limpa tiros do player fora da tela
         for ent, (trans, _) in esper.get_components(Transform, Projectile):
             if trans.y < -50:
+                esper.delete_entity(ent)
+
+        # Limpa tiros do inimigo fora da tela
+        for ent, (trans, _) in esper.get_components(Transform, EnemyTag):
+            if (
+                trans.y > WINDOW_HEIGHT + 50
+                or trans.x < -50
+                or trans.x > WINDOW_WIDTH + 50
+            ):
                 esper.delete_entity(ent)
 
     def _constrain_player(self):

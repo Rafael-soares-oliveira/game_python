@@ -92,3 +92,27 @@ class Gun:
 
     cooldown: float = 0.2  # Tempo mínimo entre tiros
     timer: float = 0.0  # Cronômetro interno
+    start_delay: float = 0.0  # Cronômetro para começar a atirar
+
+
+@dataclass
+class EnemyProjectile:
+    """Lasers do inimigo."""
+
+    damage: int = 10
+
+
+@dataclass
+class MovePattern:
+    """Padrão de movimento dos lasers."""
+
+    pattern_type: str = "linear"
+    start_x: float = 0.0
+    start_y: float = 0.0
+    time: float = 0.0
+
+    # Parâmetros matemáticos
+    speed: float = 200.0  # Velocidade base
+    angle: float = 0.0  # Ângulo base (radianos)
+    amplitude: float = 50.0  # Largura do zig-zag
+    frequency: float = 5.0  # Velocidade do zig-zag

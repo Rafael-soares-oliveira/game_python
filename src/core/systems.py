@@ -1,11 +1,15 @@
+import math
+
 import esper
 import pygame
 
 from src.core.components import (
     Animation,
+    EnemyProjectile,
     EnemyTag,
     Health,
     Invincibility,
+    MovePattern,
     PlayerTag,
     Projectile,
     Sprite,
@@ -34,6 +38,36 @@ class MovementProcessor(esper.Processor):
         for ent, (transform, vel) in esper.get_components(Transform, Velocity):
             transform.x += vel.x * dt
             transform.y += vel.y * dt
+
+        # 2. Movimento Matemático Complexo (Inimigo)
+        for ent, (trans, pattern) in esper.get_components(Transform, MovePattern):
+            pattern.time += dt
+            t = pattern.time
+
+            if pattern.pattern_type == "linear":
+                # Movimento reto baseado em ângulo
+                trans.x = pattern.start_x + math.cos(pattern.angle) * pattern.speed * t
+                trans.y = pattern.start_y + math.sin(pattern.angle) * pattern.speed * t
+
+            elif pattern.pattern_type == "sine":
+                # Zig-Zag: Move na direção do ângulo, oscila na perpendicular
+                # Posição base avançando
+                base_x = pattern.start_x + math.cos(pattern.angle) * pattern.speed * t
+                base_y = pattern.start_y + math.sin(pattern.angle) * pattern.speed * t
+
+                # Oscilação (Seno)
+                offset = math.sin(t * pattern.frequency) * pattern.amplitude
+
+                # Aplica offset perpendicular ao ângulo (-sin, cos)
+                trans.x = base_x - math.sin(pattern.angle) * offset
+                trans.y = base_y + math.cos(pattern.angle) * offset
+
+            elif pattern.pattern_type == "spiral":
+                # Espiral crescendo
+                current_radius = pattern.speed * t
+                current_angle = pattern.angle + (t * pattern.frequency)
+                trans.x = pattern.start_x + math.cos(current_angle) * current_radius
+                trans.y = pattern.start_y + math.sin(current_angle) * current_radius
 
 
 class AnimationProcessor(esper.Processor):
@@ -113,6 +147,13 @@ class CollisionProcessor(esper.Processor):
             enemies_data.append((rect, ent))
 
         # Parte 3: Player vs Enemy
+        enemy_projectiles = []
+        for ent, (trans, sprite, proj) in esper.get_components(
+            Transform, Sprite, EnemyProjectile
+        ):
+            rect = pygame.Rect(trans.x, trans.y, sprite.width, sprite.height)
+            enemy_projectiles.append((rect, ent, proj.damage))
+
         for ent, (trans, sprite, inv, health) in esper.get_components(
             Transform, Sprite, Invincibility, Health
         ):
@@ -122,13 +163,27 @@ class CollisionProcessor(esper.Processor):
                 continue
 
             player_rect = pygame.Rect(trans.x, trans.y, sprite.width, sprite.height)
+            hit_damage = 0
+
+            # A. Checa colisão com corpo do Inimigo
             for enemy_rect, enemy_ent in enemies_data:
                 if player_rect.colliderect(enemy_rect):
-                    health.current -= 25
-                    inv.is_active = True
-                    inv.timer = inv.duration
-                    print(f"Player Atingido! HP: {health.current}")
+                    hit_damage = 20
                     break
+
+            # B. Checa colisão com Tiro do Inimigo
+            if hit_damage == 0:
+                for proj_rect, proj_ent, damage in enemy_projectiles:
+                    if player_rect.colliderect(proj_rect):
+                        hit_damage = damage
+                        esper.delete_entity(proj_ent, immediate=True)  # Tiro some
+                        break
+
+            # Aplica Dano se houve colisão
+            if hit_damage > 0:
+                health.current -= hit_damage
+                inv.is_active = True
+                inv.timer = inv.duration
 
         # -------------------------------------------------
         # PARTE 4: Laser vs Inimigo

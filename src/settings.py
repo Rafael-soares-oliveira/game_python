@@ -32,11 +32,26 @@ PLAYER_SPEED = 500
 PLAYER_HP = 100
 PLAYER_GUN_COOLDOWN = 0.2
 PLAYER_INVINCIBILITY = 2.0
+PLAYER_START_DELAY = 2.0
 
 LASER_SPEED = -600
-LASER_DAMAGE = 10
+LASER_DAMAGE = 5
 
 ENEMY_HP = 200
+ENEMY_SHOOT_COOLDOWN = 0.5
+
+# Padrões de tipo do inimigo (velocidade min/max)
+# Padrão 0: Leque linear
+PATTERN_0_SPEED = (100, 250)
+
+# Padrão 1: Círculo Zig-Zag
+PATTERN_1_SPEED = (50, 150)
+
+# Padrão 2: Leque Ondulado
+PATTERN_2_SPEED = (180, 280)
+
+# Padrão 3: Espiral
+PATTERN_3_SPEED = (80, 120)
 
 # --- Configurações de Debug ---
 DEBUG_MODE = True  # Mostra hitboxes, FPS, etc.

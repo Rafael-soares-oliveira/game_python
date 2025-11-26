@@ -1,12 +1,17 @@
+import math
+import random
+
 import esper
 import pygame
 
 from src.core.components import (
     Animation,
+    EnemyProjectile,
     EnemyTag,
     Gun,
     Health,
     Invincibility,
+    MovePattern,
     PlayerTag,
     Projectile,
     Sprite,
@@ -19,6 +24,12 @@ from src.settings import (
     IMAGES_DIR,
     LASER_DAMAGE,
     LASER_SPEED,
+    PATTERN_0_SPEED,
+    PATTERN_1_SPEED,
+    PATTERN_2_SPEED,
+    PATTERN_3_SPEED,
+    PLAYER_GUN_COOLDOWN,
+    PLAYER_START_DELAY,
     WINDOW_HEIGHT,
     WINDOW_WIDTH,
 )
@@ -51,7 +62,9 @@ def create_player(world_name):
     esper.add_component(player, Animation(frames, 0.1))
     esper.add_component(player, Invincibility(duration=2.0))
     esper.add_component(player, Health(100, 100))
-    esper.add_component(player, Gun())
+    esper.add_component(
+        player, Gun(cooldown=PLAYER_GUN_COOLDOWN, start_delay=PLAYER_START_DELAY)
+    )
 
 
 def create_enemy(world_name):
@@ -130,3 +143,78 @@ def create_bg(world_name):
     ent = esper.create_entity()
     esper.add_component(ent, Transform(0, 0))
     esper.add_component(ent, Sprite(bg, layer=0))
+
+
+def create_enemy_bullet(world_name, x, y, pattern_type, angle, speed, freq=5.0):
+    """Cria um único projétil inimigo com padrão matemático."""
+    esper.switch_world(world_name)
+
+    w, h = 8, 8
+    surf = pygame.Surface((w, h))
+    surf.fill("#ffff00")  # Amarelo
+
+    bullet = esper.create_entity()
+
+    # Nota: A posição será controlada pelo MovePattern, mas inicializamos o Transform
+    esper.add_component(bullet, Transform(x, y))
+    # Velocity zerada pois o MovePattern controla tudo
+    esper.add_component(bullet, Velocity(0, 0))
+    esper.add_component(bullet, Sprite(surf, layer=1))
+    esper.add_component(bullet, EnemyProjectile(damage=10))
+
+    # Componente matemático
+    esper.add_component(
+        bullet,
+        MovePattern(
+            pattern_type=pattern_type,
+            start_x=x,
+            start_y=y,
+            angle=angle,
+            speed=speed,
+            frequency=freq,
+            amplitude=30.0,  # Largura do zig-zag
+        ),
+    )
+
+
+def spawn_enemy_pattern(world_name, enemy_x, enemy_y, pattern_idx):
+    """Gerencia qual 'golpe' o inimigo vai usar."""
+
+    # Padrão 0: Leque Simples (Fan)
+    if pattern_idx == 0:
+        angles = [60, 75, 90, 105, 120]  # Graus (90 é para baixo)
+        for deg in angles:
+            rad = math.radians(deg)
+            speed = random.uniform(PATTERN_0_SPEED[0], PATTERN_0_SPEED[1])
+            create_enemy_bullet(
+                world_name, enemy_x, enemy_y, "linear", rad, speed=speed, freq=5
+            )
+
+    # Padrão 1: Zig-Zag Circular (360 graus)
+    elif pattern_idx == 1:
+        for deg in range(0, 360, 45):  # 8 direções
+            rad = math.radians(deg)
+            speed = random.uniform(PATTERN_1_SPEED[0], PATTERN_1_SPEED[1])
+            create_enemy_bullet(
+                world_name, enemy_x, enemy_y, "sine", rad, speed=speed, freq=5.0
+            )
+
+    # Padrão 2: Leque Zig-Zag (Wavy Fan)
+    elif pattern_idx == 2:
+        angles = [70, 80, 90, 100, 110]
+        for deg in angles:
+            rad = math.radians(deg)
+            speed = random.uniform(PATTERN_2_SPEED[0], PATTERN_2_SPEED[1])
+            create_enemy_bullet(
+                world_name, enemy_x, enemy_y, "sine", rad, speed=speed, freq=3.0
+            )
+
+    # Padrão 3: Espiral Louca
+    elif pattern_idx == 3:
+        # Cria 4 braços de espiral
+        for deg in [0, 90, 180, 270]:
+            rad = math.radians(deg)
+            speed = random.uniform(PATTERN_3_SPEED[0], PATTERN_3_SPEED[1])
+            create_enemy_bullet(
+                world_name, enemy_x, enemy_y, "spiral", rad, speed=speed, freq=1.0
+            )
