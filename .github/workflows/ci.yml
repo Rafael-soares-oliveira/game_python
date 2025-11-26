@@ -64,9 +64,8 @@ jobs:
         run: uv sync
 
       - name: Build para Web (Pygbag)
-        # CORRIGIDO: pybag -> pygbag
         run: |
-          uv run pygbag --build --archive src
+          uv run pygbag --build --archive --umask 0 .
           mkdir public
           cp -r src/build/web/* public/
 
