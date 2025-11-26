@@ -166,7 +166,6 @@ class GameScene(Scene):
         for ent, (trans, sprite) in esper.get_components(Transform, Sprite):
             # Aplica apenas ao Jogador (checando se tem a tag PlayerTag)
             if esper.has_component(ent, PlayerTag):
-
                 # Largura/Altura da imagem (assumindo que sprite.image existe)
                 # Se usou nosso Sprite component, ele tem .width e .height no post_init,
                 # mas vamos pegar direto da imagem para garantir.

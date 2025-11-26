@@ -27,7 +27,6 @@ class MovementProcessor(esper.Processor):
 
 
 class AnimationProcessor(esper.Processor):
-
     def process(self, dt: float):
         # Itera sobre entidades que têm Animação E Sprite
         for ent, (anim, sprite) in esper.get_components(Animation, Sprite):
