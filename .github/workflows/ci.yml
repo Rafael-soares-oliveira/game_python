@@ -17,85 +17,39 @@ jobs:
     name: 🛡️ Quality Gate
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
-
-      - name: Instalar uv
-        uses: astral-sh/setup-uv@v3
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
         with:
           enable-cache: true
-          # Se o erro do uv.lock persistir, mude para "**/uv.lock"
-          cache-dependency-glob: "**/uv.lock" 
-
-      - name: Configurar Python 3.12
-        run: uv python install 3.12
-
-      - name: Instalar dependências
-        run: uv sync --dev
-
-      - name: Verificar Formatação (Ruff)
-        run: uv run ruff format --check .
-      
-      # Recomendo manter este passo para garantir qualidade do código
-      - name: Verificar Linting (Ruff)
-        run: uv run ruff check .
+          cache-dependency-glob: "**/uv.lock"
+      - run: uv python install 3.12
+      - run: uv sync --dev
+      - run: uv run ruff format --check .
+      - run: uv run ruff check .
 
   deploy-web:
     name: 🚀 Build & Deploy Web
     needs: quality-check
-    # CORRIGIDO: ref -> refs (com 's')
-    if: github.ref == 'refs/heads/main' 
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
-      - name: Checkout do Código
-        uses: actions/checkout@v4
-
-      - name: Instalar uv
-        uses: astral-sh/setup-uv@v3
-
-      - name: Configurar Python 3.12
-        run: uv python install 3.12
-
-      - name: Instalar dependências
-        run: uv sync
-
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+      - run: uv python install 3.12
+      - run: uv sync
       - name: Build para Web (Pygbag)
         run: |
-          # 1. Criar uma área de preparação (Staging) limpa
           mkdir staging
-          
-          # 2. Copiar APENAS os arquivos do jogo (Ignorando .venv, .git, etc)
           cp main.py staging/
           cp -r src staging/
           cp -r assets staging/
-          
-          # 3. Rodar o Pygbag apontando para a pasta 'staging'
-          # O comando é executado da raiz, mas empacota a pasta staging
-          uv run pygbag --build --archive staging
-          
-          # 4. Preparar artefato final
-          mkdir public
-          # O build gerado fica dentro de staging/build/web
-          cp -r staging/build/web/* public/
-          
-          # 5. Garantir pythonrc.py local para compatibilidade com pygbag CDN
-          # Alguns builds do pygbag referenciam '/archives/0.9/pythonrc.py' no loader.
-          # Para evitar 404 no GitHub Pages, colocamos uma cópia do pythonrc do commit
-          # usado no projeto (ver `uv.lock`) em `public/archives/0.9/`.
-          mkdir -p public/archives/0.9
-          curl -fsSL \
-            https://raw.githubusercontent.com/pygame-web/pygbag/2240abacb20a6eff6a0ceaf6a320acafe6ab0e57/pythonrc.py \
-            -o public/archives/0.9/pythonrc.py || true
-
-      - name: Upload do artefato para o GitHub Pages
-        uses: actions/upload-pages-artifact@v3
+          uv run pygbag --build staging
+      - uses: actions/upload-pages-artifact@v3
         with:
-          path: 'public'
-
-      - name: Deploy no GitHub Pages
-        id: deployment
+          path: 'staging/build/web'
+      - id: deployment
         uses: actions/deploy-pages@v4

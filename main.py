@@ -1,12 +1,46 @@
 import asyncio
-import os
-import sys
 
-# Garante que o Python encontre o pacote src
-sys.path.append(os.getcwd())
+import pygame
 
-# Importa o main original de dentro da pasta src
-from src.main import main
+from src.core.scene import SceneManager
+from src.scenes.menu import MenuScene
+from src.settings import FPS, TITLE, WINDOW_HEIGHT, WINDOW_WIDTH
 
-if __name__ == "__main__":
-    asyncio.run(main())
+
+async def main():
+    # 1. Setup Inicial
+    pygame.init()
+    pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+    pygame.display.set_caption(TITLE)
+    clock = pygame.time.Clock()
+
+    # 2. Inicializa Gerenciador e Cena Inicial
+    # (Importante: Display já existe aqui, então SceneManager não vai dar erro)
+    manager = SceneManager()
+    manager.switch_to(MenuScene)
+
+    running = True
+    while running:
+        # Calcular Delta Time em segundos (essencial para física estável)
+        dt = clock.tick(FPS) / 1000.0
+
+        # 3. Processamento de Eventos
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            # Delega inputs (cliques, teclas) para a cena ativa
+            manager.process_input(event)
+
+        # 4. Update e Draw
+        # O manager chama update(dt) na cena atual e draw() em todas (pilha)
+        manager.run(dt)
+
+        # 5. Flip e Controle de Async (Web)
+        pygame.display.flip()
+        await asyncio.sleep(0)
+
+    pygame.quit()
+
+
+# if __name__ == "__main__":
+#     asyncio.run(main())
