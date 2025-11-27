@@ -7,7 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "esper>=3.4",
     "pygame-ce>=2.5.6",
-    "pygbag>=0.9.2",
+    "pygbag",
 ]
 
 [dependency-groups]
@@ -26,3 +26,6 @@ select = ["E", "F", "I", "N", "W"]
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
+
+[tool.uv.sources]
+pygbag = { git = "https://github.com/pygame-web/pygbag.git" }
