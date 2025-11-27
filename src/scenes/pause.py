@@ -15,7 +15,7 @@ class PauseScene(Scene):
         self.overlay.fill((0, 0, 0))
         self.overlay.set_alpha(150)  # 0 = invisível, 255 = opaco
 
-    def process_input(self, event: pygame.Event):
+    def process_input(self, event: pygame.event.Event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 self.manager.pop()

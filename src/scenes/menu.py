@@ -11,7 +11,7 @@ class MenuScene(Scene):
         self.font = pygame.font.SysFont("arial", 24)
         self.blink_timer = 1
 
-    def process_input(self, event: pygame.Event):
+    def process_input(self, event: pygame.event.Event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 from src.scenes.game import GameScene
@@ -25,7 +25,7 @@ class MenuScene(Scene):
         self.display.fill(COLORS["background"])
 
         # Título
-        title = self.title_font.render("PROJETO PORTFOLIO", True, COLORS["ui_border"])
+        title = self.title_font.render("SHOOTER PYTHON", True, COLORS["ui_border"])
         title_rect = title.get_rect(center=(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 3))
         self.display.blit(title, title_rect)
 

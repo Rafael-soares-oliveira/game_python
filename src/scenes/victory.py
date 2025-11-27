@@ -10,7 +10,7 @@ class VictoryScene(Scene):
         self.font_big = pygame.font.SysFont("arial", 50, bold=True)
         self.font_small = pygame.font.SysFont("arial", 20)
 
-    def process_input(self, event: pygame.Event):
+    def process_input(self, event: pygame.event.Event):
         if event.type == pygame.KEYDOWN:
             if event.key in (pygame.K_RETURN, pygame.K_ESCAPE):
                 from src.scenes.menu import MenuScene

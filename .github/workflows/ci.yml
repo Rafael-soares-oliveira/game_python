@@ -41,15 +41,5 @@ jobs:
       - uses: astral-sh/setup-uv@v3
       - run: uv python install 3.12
       - run: uv sync
-      - name: Build para Web (Pygbag)
-        run: |
-          mkdir staging
-          cp main.py staging/
-          cp -r src staging/
-          cp -r assets staging/
-          uv run pygbag --build staging
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: 'staging/build/web'
       - id: deployment
         uses: actions/deploy-pages@v4

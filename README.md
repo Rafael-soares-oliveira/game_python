@@ -7,14 +7,7 @@
 
 Um Shoot 'em Up desenvolvido em Python focado em **Engenharia de Software**, **Arquitetura Limpa** e **Padrões de Projeto**.
 
-Este projeto demonstra como desacoplar dados de comportamento utilizando o padrão **ECS (Entity Component System)**, fugindo da orientação a objetos tradicional para garantir performance e escalabilidade. O jogo roda nativamente no Desktop e na Web (WebAssembly).
-
----
-
-## 🎮 Demo Online (WASM)
-
-O projeto conta com um pipeline de CI/CD que compila o Python para WebAssembly.
-**[Jogue aqui no Navegador](https://Rafael-soares-oliveira.github.io/game_python/)**
+Este projeto demonstra como desacoplar dados de comportamento utilizando o padrão **ECS (Entity Component System)**, fugindo da orientação a objetos tradicional para garantir performance e escalabilidade. O jogo roda nativamente no Desktop.
 
 ---
 
@@ -22,7 +15,7 @@ O projeto conta com um pipeline de CI/CD que compila o Python para WebAssembly.
 - Python 3.12
 - Pygame-ce (Community Edition)
 - Esper (ECS)
-- Pygbag (WebAssembly Export)
+- Pygbag (WebAssembly Export) -> Não funcionou corretamente
 - Ruff (Linter)
 
 ---
