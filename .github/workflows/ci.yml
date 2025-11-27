@@ -81,6 +81,15 @@ jobs:
           mkdir public
           # O build gerado fica dentro de staging/build/web
           cp -r staging/build/web/* public/
+          
+          # 5. Garantir pythonrc.py local para compatibilidade com pygbag CDN
+          # Alguns builds do pygbag referenciam '/archives/0.9/pythonrc.py' no loader.
+          # Para evitar 404 no GitHub Pages, colocamos uma cópia do pythonrc do commit
+          # usado no projeto (ver `uv.lock`) em `public/archives/0.9/`.
+          mkdir -p public/archives/0.9
+          curl -fsSL \
+            https://raw.githubusercontent.com/pygame-web/pygbag/2240abacb20a6eff6a0ceaf6a320acafe6ab0e57/pythonrc.py \
+            -o public/archives/0.9/pythonrc.py || true
 
       - name: Upload do artefato para o GitHub Pages
         uses: actions/upload-pages-artifact@v3
