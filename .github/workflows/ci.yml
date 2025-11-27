@@ -65,9 +65,22 @@ jobs:
 
       - name: Build para Web (Pygbag)
         run: |
-          uv run pygbag --build --archive .
+          # 1. Criar uma área de preparação (Staging) limpa
+          mkdir staging
+          
+          # 2. Copiar APENAS os arquivos do jogo (Ignorando .venv, .git, etc)
+          cp main.py staging/
+          cp -r src staging/
+          cp -r assets staging/
+          
+          # 3. Rodar o Pygbag apontando para a pasta 'staging'
+          # O comando é executado da raiz, mas empacota a pasta staging
+          uv run pygbag --build --archive staging
+          
+          # 4. Preparar artefato final
           mkdir public
-          cp -r build/web/* public/
+          # O build gerado fica dentro de staging/build/web
+          cp -r staging/build/web/* public/
 
       - name: Upload do artefato para o GitHub Pages
         uses: actions/upload-pages-artifact@v3
